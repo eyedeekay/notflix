@@ -31,6 +31,7 @@ install: clean clone
 	install m4page/m4page /usr/local/bin
 	install m4page/README.md /usr/share/doc/m4page
 	install script.js /usr/lib/notflix
+	install search.js /usr/lib/notflix
 	install style.css /usr/lib/notflix
 	install metaname/metaname /usr/local/bin
 	install metaname/README.md /usr/share/doc/metaname
@@ -67,7 +68,7 @@ run:
 
 pages:
 	docker exec -t notflix m4gallery
-	docker exec -t notflix cp style.css script.js db
+	docker exec -t notflix cp style.css script.js search.js db
 
 update:
 	docker rm -f notflix; \
