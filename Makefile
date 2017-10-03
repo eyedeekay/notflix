@@ -30,8 +30,8 @@ install: clean clone
 	install m4konvert/README.md /usr/share/doc/m4konvert
 	install m4page/m4page /usr/local/bin
 	install m4page/README.md /usr/share/doc/m4page
-	install m4page/script.js /usr/lib/notflix
-	install m4page/style.css /usr/lib/notflix
+	install script.js /usr/lib/notflix
+	install style.css /usr/lib/notflix
 	install metaname/metaname /usr/local/bin
 	install metaname/README.md /usr/share/doc/metaname
 	install metaname/metavars /usr/local/bin
