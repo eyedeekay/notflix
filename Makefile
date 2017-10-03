@@ -67,14 +67,15 @@ run:
 
 pages:
 	docker exec -t notflix m4gallery
+	docker exec -t notflix cp style.css script.js db
 
 update:
+	make clobber
 	make docker
-	docker rm -f notflix; \
 	make run
 	make pages
 
 clobber:
 	docker rm -f notflix; \
 	docker rmi -f notflix; \
-	docker system prune -f
+	true
