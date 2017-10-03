@@ -1,14 +1,24 @@
 body {
 	font-size: 62.5%;
-	font-family: sans-serif;
-	background: #696969;
+	font-family: serif,monospace;
+        background: black;
+        color: gray;
 }
 
 .clear { clear: both; }
 
 #header {
-	background: #2F4F4F;
-        color: #C71585;
+	background: black;
+        border: double;
+        color: blue;
+}
+
+h1, h2 {
+        border: double;
+}
+
+h1, h2, em, strong {
+        color: blue;
 }
 
 img {
@@ -19,15 +29,16 @@ img {
 
 #content {
 	max-width: 58%;
-        background: #2F4F4F;
+        background: black;
         float: right;
-        color: #C71585;
+        color: gray;
 }
 
 #sidebar {
 	width: 40%;
         max-width: 40%;
 	float: left;
-        background: #708090;
-        color: #800000;
+        background: black;
+        color: gray;
 }
+

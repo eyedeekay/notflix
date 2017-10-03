@@ -70,7 +70,7 @@ pages:
 	docker exec -t notflix cp style.css script.js db
 
 update:
-	make clobber
+	docker rm -f notflix; \
 	make docker
 	make run
 	make pages
