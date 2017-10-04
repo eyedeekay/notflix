@@ -3,6 +3,7 @@ body {
 	font-family: serif,monospace;
         background: black;
         color: gray;
+        padding: 15px;
 }
 
 .clear { clear: both; }
@@ -23,22 +24,24 @@ h1, h2, em, strong {
 
 img {
         display: block;
-        max-width: 65%;
+        max-width: 20%;
         margin: auto;
 }
 
 #content {
-	max-width: 58%;
+	max-width: 65%;
         background: black;
         float: right;
         color: gray;
 }
 
 #sidebar {
-	width: 40%;
-        max-width: 40%;
+	width: 25%;
+        max-width: 25%;
+        height: 75%;
 	float: left;
         background: black;
         color: gray;
+        padding: 20px;
 }
 
