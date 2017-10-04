@@ -67,6 +67,7 @@ run:
 		-t notflix
 
 pages:
+	docker exec -t notflix rm contents.md; \
 	docker exec -t notflix m4gallery
 	docker exec -t notflix cp style.css script.js search.js db
 
@@ -80,3 +81,6 @@ clobber:
 	docker rm -f notflix; \
 	docker rmi -f notflix; \
 	true
+
+update-js:
+	docker cp search.js notflix:search.js
