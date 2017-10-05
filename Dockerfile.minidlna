@@ -1,4 +1,4 @@
-FROM alpine:3.6
+FROM alpine:latest
 RUN apk update
 RUN apk add minidlna
 RUN adduser -h /home/dlna -g dlna -S -D dlna dlna
