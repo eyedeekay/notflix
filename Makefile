@@ -166,7 +166,7 @@ run-syncthing:
 		--add-host 'minidlna-notflix:172.18.0.4' \
 		--add-host 'tinc-notflix:172.18.0.5' \
 		--restart=always \
-		-p 192.168.1.13:7384:8384 \
+		-p 192.168.1.13:80:8384 \
 		--volume "$(shell pwd)/Videos:/home/dlna/Sync/videos" \
 		--name syncthing-notflix -t syncthing-notflix
 
