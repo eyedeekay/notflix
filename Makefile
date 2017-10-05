@@ -1,7 +1,7 @@
 
 containers: network minidlna syncthing tinc notflix viddir
 
-run: viddir run-minidlna run-syncthing run-notflix
+run: containers run-minidlna run-syncthing run-notflix
 
 update: update-minidlna update-syncthing update-notflix
 
@@ -137,7 +137,7 @@ run-minidlna:
 		--volume "$(shell pwd)/Videos:/home/dlna/videos" \
 		-p 192.168.1.14:7900:1900/udp \
 		-p 192.168.1.14:7200:8200 \
-		-p 192.168.1.14:7080:8080 \
+		-p 192.168.1.14:80:8080 \
 		--name minidlna-notflix -t minidlna-notflix
 
 backup-syncthing:
