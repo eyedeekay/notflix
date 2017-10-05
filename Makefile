@@ -135,9 +135,9 @@ run-minidlna:
 		--add-host 'tinc-notflix:172.18.0.5' \
 		--restart=always \
 		--volume "$(shell pwd)/Videos:/home/dlna/videos" \
-		-p 1900:1900/udp \
-		-p 8200:8200 \
-		-p 7680:8080 \
+		-p 1900/udp \
+		-p 8200 \
+		-p 8080 \
 		--name minidlna-notflix -t minidlna-notflix
 
 backup-syncthing:
