@@ -1,0 +1,4 @@
+syncthing/*.pem
+syncthing/*.xml
+syncthing/*.db
+syncthing/*/

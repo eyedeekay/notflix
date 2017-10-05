@@ -114,7 +114,7 @@ run-minidlna:
 		--name minidlna-notflix -t minidlna-notflix
 
 backup-syncthing:
-	docker cp syncthing-notflix:/home/sync/.config/syncthing/* .
+	docker cp syncthing-notflix:/home/sync/.config/syncthing .
 
 update-syncthing:
 	make backup-syncthing
