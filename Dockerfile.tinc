@@ -1,0 +1,29 @@
+FROM alpine:3.6
+RUN apk update
+RUN apk add tinc net-tools libpcap libcrypto1.0 lzo ipcalc zlib
+RUN adduser -h /home/tinc -g tinc -S -D tinc tinc
+RUN mkdir -p /etc/tinc/notflix/hosts/
+
+RUN printf "#! /bin/sh\n\
+ifconfig notflix-tun0 10.0.0.1/32:10.0.0.1/32 netmask 255.255.0.0\n" | tee  /etc/tinc/notflix/tinc-up
+
+RUN printf "#! /bin/sh\n\
+ifconfig notflix-tun0 down\n" | tee  /etc/tinc/notflix/tinc-down
+
+RUN printf "Name = notflixA\n\
+AddressFamily = ipv4\n\
+Interface = notflix-tun0\n\
+PrivateKeyFile = /etc/tinc/notflix/notflix-key.priv\n\
+Device = tun0\n" | tee  /etc/tinc/notflix/tinc.conf
+
+RUN printf "Subnet = 10.1.0.0/16\n\
+Address = 1.2.3.4\n" | tee  /etc/tinc/notflix/hosts/notflixA
+
+EXPOSE 655/tcp 655/udp
+RUN /usr/sbin/tincd --generate-keys=4096 --net=notflix
+USER tinc
+CMD /usr/sbin/tincd --no-detach \
+        --debug=5 \
+        --net=notflix \
+        --logfile=/home/tinc/log \
+        --pidfile=/home/tinc/tinc.pid

@@ -7,7 +7,7 @@ RUN echo "deb https://apt.syncthing.net/ syncthing stable" | tee /etc/apt/source
 RUN apt-get update
 RUN apt-get install -y syncthing
 RUN adduser --system --group --home /home/sync --gecos syncthing --disabled-password --disabled-login syncthing
-COPY syncthing /home/sync/.config/syncthing
+COPY config-syncthing /home/sync/.config/syncthing
 WORKDIR /home/sync
 VOLUME /home/sync/Sync/videos
 RUN chown -R syncthing:syncthing /home/sync/

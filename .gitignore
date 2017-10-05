@@ -1,4 +1,10 @@
-syncthing/*.pem
-syncthing/*.xml
-syncthing/*.db
-syncthing/*/
+config-syncthing/*.pem
+config-syncthing/*.xml
+config-syncthing/*.db
+config-syncthing/*/
+syncthing
+minidlna
+tinc
+notflix
+etctinc
+network

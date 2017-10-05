@@ -1,9 +1,12 @@
 
-containers: minidlna syncthing notflix viddir
+containers: network minidlna syncthing tinc notflix viddir
 
-run: viddir run-minidlna run-syncthing run-notflix
+run: viddir run-minidlna run-syncthing run-tinc run-notflix
 
 update: update-minidlna update-syncthing update-notflix
+
+allclean:
+	rm -fv minidlna syncthing tinc notflix
 
 all: containers run
 
@@ -16,13 +19,18 @@ clone:
 	rm */*.mp4 */*/*.mp4
 
 clean:
-	rm -rf metaname \
+	rm -rfv metaname \
 		m4page \
 		m4konvert \
 		m4gallery \
 		hdpage \
 		doc-pak \
-		description-pak
+		description-pak \
+		minidlna \
+		syncthing \
+		tinc \
+		notflix \
+		viddir
 
 install: clean clone
 	mkdir -p /usr/lib/notflix \
@@ -65,10 +73,19 @@ checkinstall:
 
 notflix:
 	docker build --force-rm -t notflix .
+	touch notflix
 
 run-notflix:
 	docker run --cap-drop=all \
 		-d \
+		--network notflix \
+		--ip 172.18.0.5 \
+		--hostname notflix \
+		--add-host '172.18.0.1    gateway-notflix' \
+		--add-host '172.18.0.2    tinc-notflix' \
+		--add-host '172.18.0.3    syncthing-notflix' \
+		--add-host '172.18.0.4    minidlna-notflix' \
+		--add-host '172.18.0.5    notflix' \
 		--restart=always \
 		--volume "$(shell pwd)/Videos:/home/notflix/videos" \
 		-p 7670:8080 \
@@ -87,8 +104,8 @@ update-notflix:
 	make pages
 
 clobber:
-	docker rm -f notflix syncthing-notflix minidlna-notflix; \
-	docker rmi -f notflix syncthing-notflix minidlna-notflix; \
+	docker rm -f notflix syncthing-notflix minidlna-notflix tinc-notflix; \
+	docker rmi -f notflix syncthing-notflix minidlna-notflix tinc-notflix; \
 	true
 
 update-js:
@@ -102,19 +119,28 @@ update-minidlna:
 
 minidlna:
 	docker build --force-rm -f Dockerfile.minidlna -t minidlna-notflix .
+	touch minidlna
 
 run-minidlna:
 	docker run --cap-drop=all \
 		-d \
+		--network notflix \
+		--ip 172.18.0.4 \
+		--hostname minidlna-notflix \
+		--add-host '172.18.0.1    gateway-notflix' \
+		--add-host '172.18.0.2    tinc-notflix' \
+		--add-host '172.18.0.3    syncthing-notflix' \
+		--add-host '172.18.0.4    minidlna-notflix' \
+		--add-host '172.18.0.5    notflix' \
 		--restart=always \
 		--volume "$(shell pwd)/Videos:/home/dlna/videos" \
-		-p 1900:1900 \
+		-p 1900/udp:1900/udp \
 		-p 8200:8200 \
 		-p 7680:8080 \
 		--name minidlna-notflix -t minidlna-notflix
 
 backup-syncthing:
-	docker cp syncthing-notflix:/home/sync/.config/syncthing .
+	docker cp syncthing-notflix:/home/sync/.config/syncthing config-syncthing
 
 update-syncthing:
 	make backup-syncthing
@@ -125,14 +151,60 @@ update-syncthing:
 
 syncthing:
 	docker build --force-rm -f Dockerfile.syncthing -t syncthing-notflix .
+	touch syncthing
 
 run-syncthing:
 	docker run --cap-drop=all \
 		-d \
+		--network notflix \
+		--ip 172.18.0.3 \
+		--hostname syncthing-notflix \
+		--add-host '172.18.0.1    gateway-notflix' \
+		--add-host '172.18.0.2    tinc-notflix' \
+		--add-host '172.18.0.3    syncthing-notflix' \
+		--add-host '172.18.0.4    minidlna-notflix' \
+		--add-host '172.18.0.5    notflix' \
 		--restart=always \
 		-p 7684:8384 \
 		--volume "$(shell pwd)/Videos:/home/dlna/Sync/videos" \
 		--name syncthing-notflix -t syncthing-notflix
 
+tinc:
+	docker build --force-rm -f Dockerfile.tinc -t tinc-notflix .
+	touch tinc
+
+run-tinc:
+	docker run --cap-drop=all \
+		--cap-add NET_ADMIN \
+		--device=/dev/net/tun \
+		--network notflix \
+		--ip 172.18.0.2 \
+		--hostname tinc-notflix \
+		--add-host '172.18.0.1    gateway-notflix' \
+		--add-host '172.18.0.2    tinc-notflix' \
+		--add-host '172.18.0.3    syncthing-notflix' \
+		--add-host '172.18.0.4    minidlna-notflix' \
+		--add-host '172.18.0.5    notflix' \
+		--restart=always \
+		-p 7655:655 \
+		-p '7655:655/udp' \
+		--name tinc-notflix -t tinc-notflix
+
+update-tinc:
+
+network:
+	sudo ip address add 192.168.1.11 dev wlan0
+	docker network create --subnet=172.18.0.0/16 notflix
+	make netclean
+
+netclear:
+	@echo 'sudo ip address del 192.168.1.11/32 dev wlan0' | tee network
+	@echo 'docker network rm notflix' | tee -a network
+
+netclean:
+	$(shell . ./network)
+	rm network
+
 viddir:
 	mkdir -p "$(shell pwd)/Videos"
+	touch viddir
