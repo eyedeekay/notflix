@@ -106,6 +106,7 @@ update-notflix:
 clobber:
 	docker rm -f notflix syncthing-notflix minidlna-notflix tinc-notflix; \
 	docker rmi -f notflix syncthing-notflix minidlna-notflix tinc-notflix; \
+	netclean; \
 	true
 
 update-js:
