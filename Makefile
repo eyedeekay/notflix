@@ -81,11 +81,11 @@ run-notflix:
 		--network notflix \
 		--ip 172.18.0.5 \
 		--hostname notflix \
-		--add-host '172.18.0.1    gateway-notflix' \
-		--add-host '172.18.0.2    tinc-notflix' \
-		--add-host '172.18.0.3    syncthing-notflix' \
-		--add-host '172.18.0.4    minidlna-notflix' \
-		--add-host '172.18.0.5    notflix' \
+		--add-host 'gateway-notflix:172.18.0.1' \
+		--add-host 'tinc-notflix:172.18.0.2' \
+		--add-host 'syncthing-notflix:172.18.0.3' \
+		--add-host 'minidlna-notflix:172.18.0.4' \
+		--add-host 'notflix:172.18.0.5' \
 		--restart=always \
 		--volume "$(shell pwd)/Videos:/home/notflix/videos" \
 		-p 7670:8080 \
@@ -127,11 +127,11 @@ run-minidlna:
 		--network notflix \
 		--ip 172.18.0.4 \
 		--hostname minidlna-notflix \
-		--add-host '172.18.0.1    gateway-notflix' \
-		--add-host '172.18.0.2    tinc-notflix' \
-		--add-host '172.18.0.3    syncthing-notflix' \
-		--add-host '172.18.0.4    minidlna-notflix' \
-		--add-host '172.18.0.5    notflix' \
+		--add-host 'gateway-notflix:172.18.0.1' \
+		--add-host 'tinc-notflix:172.18.0.2' \
+		--add-host 'syncthing-notflix:172.18.0.3' \
+		--add-host 'minidlna-notflix:172.18.0.4' \
+		--add-host 'notflix:172.18.0.5' \
 		--restart=always \
 		--volume "$(shell pwd)/Videos:/home/dlna/videos" \
 		-p 1900/udp:1900/udp \
@@ -159,11 +159,11 @@ run-syncthing:
 		--network notflix \
 		--ip 172.18.0.3 \
 		--hostname syncthing-notflix \
-		--add-host '172.18.0.1    gateway-notflix' \
-		--add-host '172.18.0.2    tinc-notflix' \
-		--add-host '172.18.0.3    syncthing-notflix' \
-		--add-host '172.18.0.4    minidlna-notflix' \
-		--add-host '172.18.0.5    notflix' \
+		--add-host 'gateway-notflix:172.18.0.1' \
+		--add-host 'tinc-notflix:172.18.0.2' \
+		--add-host 'syncthing-notflix:172.18.0.3' \
+		--add-host 'minidlna-notflix:172.18.0.4' \
+		--add-host 'notflix:172.18.0.5' \
 		--restart=always \
 		-p 7684:8384 \
 		--volume "$(shell pwd)/Videos:/home/dlna/Sync/videos" \
@@ -180,11 +180,11 @@ run-tinc:
 		--network notflix \
 		--ip 172.18.0.2 \
 		--hostname tinc-notflix \
-		--add-host '172.18.0.1    gateway-notflix' \
-		--add-host '172.18.0.2    tinc-notflix' \
-		--add-host '172.18.0.3    syncthing-notflix' \
-		--add-host '172.18.0.4    minidlna-notflix' \
-		--add-host '172.18.0.5    notflix' \
+		--add-host 'gateway-notflix:172.18.0.1' \
+		--add-host 'tinc-notflix:172.18.0.2' \
+		--add-host 'syncthing-notflix:172.18.0.3' \
+		--add-host 'minidlna-notflix:172.18.0.4' \
+		--add-host 'notflix:172.18.0.5' \
 		--restart=always \
 		-p 7655:655 \
 		-p '7655:655/udp' \
