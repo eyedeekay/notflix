@@ -195,7 +195,7 @@ update-tinc:
 network:
 	sudo ip address add 192.168.1.11 dev wlan0
 	docker network create --subnet=172.18.0.0/16 notflix
-	make netclean
+	make netclear
 
 netclear:
 	@echo 'sudo ip address del 192.168.1.11/32 dev wlan0' | tee network
