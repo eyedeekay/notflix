@@ -1,6 +1,5 @@
 FROM alpine:latest
-RUN apk update
-RUN apk add minidlna
+RUN apk update && apk add minidlna
 RUN adduser -h /home/dlna -g dlna -S -D dlna dlna
 VOLUME /home/dlna/videos
 EXPOSE 1900/udp 8200/tcp 8080/tcp
