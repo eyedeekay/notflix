@@ -3,6 +3,8 @@ containers: minidlna syncthing notflix viddir
 
 run: viddir run-minidlna run-syncthing run-notflix
 
+update: update-minidlna update-syncthing update-notflix
+
 all: containers run
 
 clone:
@@ -67,7 +69,7 @@ notflix:
 run-notflix:
 	docker run --cap-drop=all \
 		-d \
-		--restart=yes \
+		--restart=always \
 		--volume "$(shell pwd)/Videos:/home/notflix/videos" \
 		-p 7670:8080 \
 		--name notflix \
@@ -93,6 +95,10 @@ update-js:
 	docker cp search.js notflix:search.js
 
 update-minidlna:
+	docker rmi -f minidlna-notflix;
+	make minidlna
+	docker rm -f minidlna-notflix
+	make run-minidlna
 
 minidlna:
 	docker build --force-rm -f Dockerfile.minidlna -t minidlna-notflix .
@@ -100,17 +106,21 @@ minidlna:
 run-minidlna:
 	docker run --cap-drop=all \
 		-d \
-		--restart=yes \
+		--restart=always \
 		--volume "$(shell pwd)/Videos:/home/dlna/videos" \
 		-p 1900:1900 \
 		-p 8200:8200 \
 		-p 7680:8080 \
 		--name minidlna-notflix -t minidlna-notflix
 
+backup-syncthing:
+	docker cp syncthing-notflix:/home/sync/.config/syncthing/* .
+
 update-syncthing:
-	docker cp syncthing-notflix:/home/sync/.config/syncthing .
-	docker rm -f syncthing-notflix; docker rmi -f syncthing-notflix;
+	make backup-syncthing
+	docker rmi -f syncthing-notflix;
 	make syncthing
+	docker rm -f syncthing-notflix;
 	make run-syncthing
 
 syncthing:
@@ -119,11 +129,10 @@ syncthing:
 run-syncthing:
 	docker run --cap-drop=all \
 		-d \
-		--restart=yes \
+		--restart=always \
 		-p 7684:8384 \
 		--volume "$(shell pwd)/Videos:/home/dlna/Sync/videos" \
 		--name syncthing-notflix -t syncthing-notflix
-
 
 viddir:
 	mkdir -p "$(shell pwd)/Videos"
