@@ -1,6 +1,5 @@
 FROM alpine:3.6
-RUN apk update
-RUN apk add darkhttpd markdown grep ffmpeg git sed make bash
+RUN apk update && apk add darkhttpd markdown grep ffmpeg git sed make bash
 RUN adduser -s /bin/bash -h /home/notflix -g notflix -S -D notflix notflix
 WORKDIR /home/notflix
 VOLUME /home/notflix/videos
