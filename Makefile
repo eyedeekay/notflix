@@ -202,7 +202,8 @@ netclear:
 	@echo 'docker network rm notflix' | tee -a network
 
 netclean:
-	$(shell . ./network)
+	sudo ip address del 192.168.1.11/32 dev wlan0
+	docker network rm notflix
 	rm network
 
 viddir:
