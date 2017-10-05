@@ -194,24 +194,24 @@ run-tinc:
 update-tinc:
 
 network:
-	sudo ip address add 192.168.1.11 dev wlan0
-	sudo ip address add 192.168.1.12 dev wlan0
-	sudo ip address add 192.168.1.13 dev wlan0
-	sudo ip address add 192.168.1.14 dev wlan0
-	sudo ip address add 192.168.1.15 dev wlan0
+	sudo ip address add 192.168.1.11/16 dev wlan0
+	sudo ip address add 192.168.1.12/16 dev wlan0
+	sudo ip address add 192.168.1.13/16 dev wlan0
+	sudo ip address add 192.168.1.14/16 dev wlan0
+	sudo ip address add 192.168.1.15/16 dev wlan0
 	docker network create --subnet=172.18.0.0/16 notflix
 	make netclear
 
 netclear:
-	@echo 'sudo ip address del 192.168.1.11/32 dev wlan0' | tee network
+	@echo 'sudo ip address del 192.168.1.11/16 dev wlan0' | tee network
 	@echo 'docker network rm notflix' | tee -a network
 
 netclean:
-	sudo ip address del 192.168.1.11/32 dev wlan0; \
-	sudo ip address del 192.168.1.12 dev wlan0
-	sudo ip address del 192.168.1.13 dev wlan0
-	sudo ip address del 192.168.1.14 dev wlan0
-	sudo ip address del 192.168.1.15 dev wlan0
+	sudo ip address del 192.168.1.11/16 dev wlan0; \
+	sudo ip address del 192.168.1.12/16 dev wlan0; \
+	sudo ip address del 192.168.1.13/16 dev wlan0; \
+	sudo ip address del 192.168.1.14/16 dev wlan0; \
+	sudo ip address del 192.168.1.15/16 dev wlan0; \
 	docker network rm notflix; \
 	rm network
 
