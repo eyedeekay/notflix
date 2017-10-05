@@ -88,7 +88,7 @@ run-notflix:
 		--add-host 'tinc-notflix:172.18.0.5' \
 		--restart=always \
 		--volume "$(shell pwd)/Videos:/home/notflix/videos" \
-		-p 192.168.1.12:8080:8080 \
+		-p 192.168.1.12:7080:8080 \
 		--name notflix \
 		-t notflix
 
@@ -135,9 +135,9 @@ run-minidlna:
 		--add-host 'tinc-notflix:172.18.0.5' \
 		--restart=always \
 		--volume "$(shell pwd)/Videos:/home/dlna/videos" \
-		-p 192.168.1.14:1900:1900/udp \
-		-p 192.168.1.14:8200:8200 \
-		-p 192.168.1.14:8080:8080 \
+		-p 192.168.1.14:7900:1900/udp \
+		-p 192.168.1.14:7200:8200 \
+		-p 192.168.1.14:7080:8080 \
 		--name minidlna-notflix -t minidlna-notflix
 
 backup-syncthing:
@@ -166,7 +166,7 @@ run-syncthing:
 		--add-host 'minidlna-notflix:172.18.0.4' \
 		--add-host 'tinc-notflix:172.18.0.5' \
 		--restart=always \
-		-p 192.168.1.13:8384:8384 \
+		-p 192.168.1.13:7384:8384 \
 		--volume "$(shell pwd)/Videos:/home/dlna/Sync/videos" \
 		--name syncthing-notflix -t syncthing-notflix
 
@@ -187,8 +187,8 @@ run-tinc:
 		--add-host 'minidlna-notflix:172.18.0.4' \
 		--add-host 'tinc-notflix:172.18.0.5' \
 		--restart=always \
-		-p 192.168.1.15:655:655 \
-		-p 192.168.1.15:655:655/udp \
+		-p 192.168.1.15:7655:655 \
+		-p 192.168.1.15:7655:655/udp \
 		--name tinc-notflix -t tinc-notflix
 
 update-tinc:
