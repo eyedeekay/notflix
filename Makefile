@@ -79,13 +79,13 @@ run-notflix:
 	docker run --cap-drop=all \
 		-d \
 		--network notflix \
-		--ip 172.18.0.5 \
+		--ip 172.18.0.2 \
 		--hostname notflix \
 		--add-host 'gateway-notflix:172.18.0.1' \
-		--add-host 'tinc-notflix:172.18.0.2' \
+		--add-host 'notflix:172.18.0.2' \
 		--add-host 'syncthing-notflix:172.18.0.3' \
 		--add-host 'minidlna-notflix:172.18.0.4' \
-		--add-host 'notflix:172.18.0.5' \
+		--add-host 'tinc-notflix:172.18.0.5' \
 		--restart=always \
 		--volume "$(shell pwd)/Videos:/home/notflix/videos" \
 		-p 7670:8080 \
@@ -129,10 +129,10 @@ run-minidlna:
 		--ip 172.18.0.4 \
 		--hostname minidlna-notflix \
 		--add-host 'gateway-notflix:172.18.0.1' \
-		--add-host 'tinc-notflix:172.18.0.2' \
+		--add-host 'notflix:172.18.0.2' \
 		--add-host 'syncthing-notflix:172.18.0.3' \
 		--add-host 'minidlna-notflix:172.18.0.4' \
-		--add-host 'notflix:172.18.0.5' \
+		--add-host 'tinc-notflix:172.18.0.5' \
 		--restart=always \
 		--volume "$(shell pwd)/Videos:/home/dlna/videos" \
 		-p 1900:1900/udp \
@@ -161,10 +161,10 @@ run-syncthing:
 		--ip 172.18.0.3 \
 		--hostname syncthing-notflix \
 		--add-host 'gateway-notflix:172.18.0.1' \
-		--add-host 'tinc-notflix:172.18.0.2' \
+		--add-host 'notflix:172.18.0.2' \
 		--add-host 'syncthing-notflix:172.18.0.3' \
 		--add-host 'minidlna-notflix:172.18.0.4' \
-		--add-host 'notflix:172.18.0.5' \
+		--add-host 'tinc-notflix:172.18.0.5' \
 		--restart=always \
 		-p 7684:8384 \
 		--volume "$(shell pwd)/Videos:/home/dlna/Sync/videos" \
@@ -179,13 +179,13 @@ run-tinc:
 		--cap-add NET_ADMIN \
 		--device=/dev/net/tun \
 		--network notflix \
-		--ip 172.18.0.2 \
+		--ip 172.18.0.5 \
 		--hostname tinc-notflix \
 		--add-host 'gateway-notflix:172.18.0.1' \
-		--add-host 'tinc-notflix:172.18.0.2' \
+		--add-host 'notflix:172.18.0.2' \
 		--add-host 'syncthing-notflix:172.18.0.3' \
 		--add-host 'minidlna-notflix:172.18.0.4' \
-		--add-host 'notflix:172.18.0.5' \
+		--add-host 'tinc-notflix:172.18.0.5' \
 		--restart=always \
 		-p 7655:655 \
 		-p '7655:655/udp' \
@@ -203,8 +203,8 @@ netclear:
 	@echo 'docker network rm notflix' | tee -a network
 
 netclean:
-	sudo ip address del 192.168.1.11/32 dev wlan0
-	docker network rm notflix
+	sudo ip address del 192.168.1.11/32 dev wlan0; \
+	docker network rm notflix; \
 	rm network
 
 viddir:
