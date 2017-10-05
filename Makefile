@@ -94,8 +94,7 @@ run-notflix:
 		-t notflix
 
 pages:
-	docker exec -t notflix rm contents.md; \
-	docker exec -t notflix m4gallery
+	docker exec -t notflix bash -c "rm contents.md; m4gallery"
 	docker exec -t notflix cp style.css script.js search.js db
 
 update-notflix:
@@ -136,8 +135,8 @@ run-minidlna:
 		--add-host 'tinc-notflix:172.18.0.5' \
 		--restart=always \
 		--volume "$(shell pwd)/Videos:/home/dlna/videos" \
-		-p 192.168.1.14:7900:1900/udp \
-		-p 192.168.1.14:7200:8200 \
+		-p 192.168.1.14:1900:1900/udp \
+		-p 192.168.1.14:8200:8200 \
 		-p 192.168.1.14:80:8080 \
 		--name minidlna-notflix -t minidlna-notflix
 
