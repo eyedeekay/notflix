@@ -1,6 +1,5 @@
-FROM alpine:3.6
-RUN apk update
-RUN apk add tinc net-tools libpcap libcrypto1.0 lzo ipcalc zlib
+FROM alpine:latest
+RUN apk update && apk add tinc net-tools libpcap libcrypto1.0 lzo ipcalc zlib
 RUN adduser -h /home/tinc -g tinc -S -D tinc tinc
 RUN mkdir -p /etc/tinc/notflix/hosts/
 

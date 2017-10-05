@@ -1,6 +1,5 @@
 FROM debian:stable
-RUN apt-get update
-RUN apt-get install -y apt-transport-https curl gpg
+RUN apt-get update && apt-get install -y apt-transport-https curl gpg
 RUN apt-get -y dist-upgrade
 RUN curl -s https://syncthing.net/release-key.txt | apt-key add -
 RUN echo "deb https://apt.syncthing.net/ syncthing stable" | tee /etc/apt/sources.list.d/syncthing.list
