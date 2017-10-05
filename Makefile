@@ -208,6 +208,10 @@ netclear:
 
 netclean:
 	sudo ip address del 192.168.1.11/32 dev wlan0; \
+	sudo ip address del 192.168.1.12 dev wlan0
+	sudo ip address del 192.168.1.13 dev wlan0
+	sudo ip address del 192.168.1.14 dev wlan0
+	sudo ip address del 192.168.1.15 dev wlan0
 	docker network rm notflix; \
 	rm network
 
