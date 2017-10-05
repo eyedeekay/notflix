@@ -87,14 +87,14 @@ run-notflix:
 		--add-host 'minidlna-notflix:172.18.0.4' \
 		--add-host 'tinc-notflix:172.18.0.5' \
 		--restart=always \
-		--volume "$(shell pwd)/Videos:/home/notflix/videos" \
+		--volume "$(shell pwd)/Videos:/home/notflix/Videos" \
 		-p 192.168.1.12:7080:8080 \
 		--name notflix \
 		-t notflix
 
 pages:
 	docker exec -t notflix rm contents.md; \
-	docker exec -t notflix m4gallery
+	docker exec -d -t notflix m4gallery
 	docker exec -t notflix cp style.css script.js search.js db
 
 update-notflix:
