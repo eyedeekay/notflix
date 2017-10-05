@@ -3,7 +3,8 @@ containers: network minidlna syncthing tinc notflix viddir
 
 run: containers run-minidlna run-syncthing run-notflix
 
-update: update-minidlna update-syncthing update-notflix
+update:
+	git pull
 
 allclean:
 	rm -fv minidlna syncthing tinc notflix
