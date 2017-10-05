@@ -1,0 +1,16 @@
+FROM debian:stable
+RUN apt-get update
+RUN apt-get install -y apt-transport-https curl gpg
+RUN apt-get -y dist-upgrade
+RUN curl -s https://syncthing.net/release-key.txt | apt-key add -
+RUN echo "deb https://apt.syncthing.net/ syncthing stable" | tee /etc/apt/sources.list.d/syncthing.list
+RUN apt-get update
+RUN apt-get install -y syncthing
+RUN adduser --system --group --home /home/sync --gecos syncthing --disabled-password --disabled-login syncthing
+COPY syncthing /home/sync/.config/syncthing
+WORKDIR /home/sync
+VOLUME /home/sync/Sync/videos
+RUN chown -R syncthing:syncthing /home/sync/
+USER syncthing
+EXPOSE 8384
+CMD syncthing

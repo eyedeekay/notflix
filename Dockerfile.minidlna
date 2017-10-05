@@ -1,0 +1,24 @@
+FROM alpine:3.6
+RUN apk update
+RUN apk add minidlna
+RUN adduser -h /home/dlna -g dlna -S -D dlna dlna
+VOLUME /home/dlna/videos
+EXPOSE 1900/udp 8200/tcp 8080/tcp
+RUN printf "port=8200\n\
+media_dir=V,/home/dlna/videos\n\
+friendly_name=notflix\n\
+log_dir=/home/dlna/log\n\
+log_level=general,artwork,database,scanner,metadata,http,ssdp\n\
+db_dir=/home/dlna/db\n\
+#album_art_names=changeme\n\
+inotify=no\n\
+enable_tivo=no\n\
+tivo_discovery=bonjour\n\
+strict_dlna=no\n\
+serial=1234578\n\
+model_number=1\n\
+minissdpdsocket=/home/dlna/minidssdpd.sock\n\
+" | tee /etc/minidlna.conf
+USER dlna
+RUN mkdir -p /home/dlna/log /home/dlna/db
+CMD /usr/sbin/minidlnad -r -R -P /home/dlna/minidlna.pid -p 8080 -f /etc/minidlna.conf & sleep 30 && tail -f /home/dlna/log/*
