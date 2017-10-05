@@ -94,7 +94,7 @@ run-notflix:
 
 pages:
 	docker exec -t notflix rm contents.md; \
-	docker exec -d -t notflix m4gallery
+	docker exec -t notflix m4gallery
 	docker exec -t notflix cp style.css script.js search.js db
 
 update-notflix:
