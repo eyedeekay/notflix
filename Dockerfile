@@ -2,7 +2,7 @@ FROM alpine:latest
 RUN apk update && apk add darkhttpd markdown grep ffmpeg git sed make bash
 RUN adduser -s /bin/bash -h /home/notflix -g notflix -S -D notflix notflix
 WORKDIR /home/notflix
-VOLUME /home/notflix/videos
+VOLUME /home/notflix/Videos
 COPY . .
 RUN make install && make clean
 RUN apk del git make
